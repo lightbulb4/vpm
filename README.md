@@ -11,5 +11,6 @@ Use this URL in VRChat Creator Companion:
 Current packages:
 
 - [AreaLit Occlusion Baker](https://github.com/lightbulb4/arealit-occlusion)
+- [Lightbulb World Tools](https://github.com/lightbulb4/lightbulb-world-tools)
 
 The listing is rebuilt from package releases whenever `source.json` changes, when run manually, and on its scheduled refresh.
