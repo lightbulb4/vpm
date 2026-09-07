@@ -49,7 +49,11 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
           
       - name: Build Package Version Listing
-        run: ${{env.pathToCi}}/build.cmd BuildMultiPackageListing --root ${{env.pathToCi}} --list-publish-directory $GITHUB_WORKSPACE/${{env.listPublishDirectory}}
+        # The upstream wrapper builds net6.0 and net8.0 into the same output directory.
+        # Build only net8.0 so the executable cannot be overwritten by the net6.0 build.
+        run: |
+          dotnet build "${{env.pathToCi}}/PackageBuilder/PackageBuilder.csproj" --framework net8.0 /nodeReuse:false /p:UseSharedCompilation=false --verbosity quiet
+          dotnet run --project "${{env.pathToCi}}/PackageBuilder/PackageBuilder.csproj" --no-build --framework net8.0 -- BuildMultiPackageListing --root "${{env.pathToCi}}" --list-publish-directory "$GITHUB_WORKSPACE/${{env.listPublishDirectory}}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
